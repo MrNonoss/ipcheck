@@ -117,7 +117,13 @@ while true; do
   o)
     head -n1 $1 | tr -s " " "*"
     read -p "Quel est votre séparateur de colonnes? " s
+    if [ -z "$s" ]; then
+      s=" "
+    fi
     read -p "Quelle colonne contient les IPs? " c
+    if [ -z "$var" ]; then
+      c="1"
+    fi
     echo -e "\e[33m==============================================================================================\e[0m"
     echo "Vous avez la possibilité de choisir entre trois types de recherches:"
     echo -e "-> Une recherche rapide: (Pays, opérateur et réputation), avec \e[96miphunter \e[1;31m[1]\e[0m (~0,3s/IP)"
