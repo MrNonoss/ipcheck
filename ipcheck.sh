@@ -63,29 +63,29 @@ IPhunter() {
   iphunter=$(curl --silent https://www.iphunter.info:8082/v1/ip/$ip -H "X-Key: $iphunter_api")
   basic=$(echo $iphunter | jq -r '{ip: .data.ip, cc: .data.country_code, isp: .data.isp, block: .data.block} | .ip+","+.cc+","+.isp')
   bloc=$(echo $iphunter | jq -r '.data.block')
-  if [ $bloc = "0" ]; then
+  if [[ $bloc == "0" ]]; then
     bloc="Good IP"
-  elif [ $bloc = "1" ]; then
+  elif [[ $bloc == "1" ]]; then
     bloc="Bad IP"
   else
-    [ $bloc = "2" ]
+    [[ $bloc == "2" ]]
     bloc="Not sure"
   fi
 }
 ## IPINTEL
 IPintel() {
   getipintel=$(curl --silent "http://check.getipintel.net/check.php?ip=$ip&contact=$getipintel_contact")
-  if [ $getipintel = "-1" ]; then
+  if [[ $getipintel == "-1" ]]; then
     echo 'getipintel error: $ip retuns error "-1 Invalid no input"'
-  elif [ $getipintel = "-2" ]; then
+  elif [[ $getipintel == "-2" ]]; then
     echo 'getipintel error: $ip retuns error "-2 Invalid IP address"'
-  elif [ $getipintel = "-3" ]; then
+  elif [[ $getipintel == "-3" ]]; then
     echo 'getipintel error: $ip retuns error "-3 Unroutable address / private address"'
-  elif [ $getipintel = "-4" ]; then
+  elif [[ $getipintel == "-4" ]]; then
     echo 'getipintel error: $ip retuns error "-4 Unable to reach database"'
-  elif [ $getipintel = "-5" ]; then
+  elif [[ $getipintel == "-5" ]]; then
     echo 'getipintel error: $ip retuns error "-5 Your connecting IP has been banned from the system or you do not have permission to access a particular service. Did you exceed your query limits? Did you use an invalid email address?"'
-  elif [ $getipintel = "-6" ]; then
+  elif [[ $getipintel == "-6" ]]; then
     echo 'getipintel error: $ip retuns error "-6 You did not provide any contact information with your query or the contact information is invalid."'
   fi
 }
@@ -117,11 +117,11 @@ while true; do
   o)
     head -n1 $1 | tr -s " " "*"
     read -p "Quel est votre séparateur de colonnes? " s
-    if [ -z "$s" ]; then
+    if [[ -z $s ]]; then
       s=" "
     fi
     read -p "Quelle colonne contient les IPs? " c
-    if [ -z "$var" ]; then
+    if [[ -z $var ]]; then
       c="1"
     fi
     echo -e "\e[33m==============================================================================================\e[0m"
